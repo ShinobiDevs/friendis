@@ -62,7 +62,7 @@ The `id` attribute will automatically be cached.
 
     @user1.send_friend_request(@user2)
 
-## Pending Friend Request
+### Pending Friend Request
 
     @user2.pending_friend_requests
 
@@ -70,7 +70,7 @@ The `id` attribute will automatically be cached.
 
     [{"name" => "Elad Meidar", "picture" => "http://picturez.com/elad.jpg", "id" => 1}]
 
-## Sent Friend Request
+### Sent Friend Request
 
     @user2.sent_friend_requests
 
@@ -78,11 +78,11 @@ The `id` attribute will automatically be cached.
 
     [{"name" => "Miki Bergin", "picture" => "http://picturez.com/miki.jpg", "id" => 2}]
 
-## Approving Friend Requests
+### Approving Friend Requests
 
     @user2.approve_friend_request(@user1)
 
-## Lisiting Friends
+### Lisiting Friends
     
     @user1.friends
 
@@ -91,12 +91,12 @@ The `id` attribute will automatically be cached.
     [{"name" => "Miki Bergin", "picture" => "http://picturez.com/miki.jpg", "id" => 2}] 
 
 
-## Check Friendship
+### Check Friendship
 
     @user1.is_friends_with?(@user2) #= true
     @user1.is_friends_with?(@user3) #= false
 
-## Unfriend
+### Unfriend
 
     @user1.unfriend(@user2)
 
