@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["elad@eizesus.com"]
   spec.summary       = "Friendis implements friendship relationship between objects on Redis"
   spec.description   = "Friendis keeps all your friends close by!"
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/ShinobiDevs/friendis"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
