@@ -13,6 +13,7 @@ module Friendis
   end
 
   def self.redis
+    @configuration ||= Friendis::Configuration.new
     @configuration.redis_connection ||= Redis.new
   end
 
