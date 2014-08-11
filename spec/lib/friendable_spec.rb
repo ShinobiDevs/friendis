@@ -3,6 +3,12 @@ require 'models/user'
 
 describe Friendis::Friendable do
 
+  # Configure Friendis, so it can be used
+  before(:all) do
+    Friendis.configure do |c|
+    end
+  end
+
   describe "#send_friend_request" do
     before(:each) do 
       @user1 = User.new(1)
