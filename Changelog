@@ -1,0 +1,5 @@
+0.0.3
+-----
+
+* Allow ignoring friend requests
+* Fixed - default redis connection setup

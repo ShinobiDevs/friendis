@@ -50,6 +50,25 @@ describe Friendis::Friendable do
     end
   end
 
+  describe "#ignore_friend_request" do
+    before(:each) do 
+      @user1 = User.new(1)
+      @user2 = User.new(2)
+      @user1.clear_friendis_data
+      @user2.clear_friendis_data
+
+      @user1.save
+      @user2.save
+      @user1.send_friend_request(@user2)
+    end
+
+    it "should show friend on friends list after approval" do
+      @user2.ignore_friend_request(@user1).should be_truthy
+      @user2.pending_friend_requests.should be_empty
+      @user1.sent_friend_requests.should_not be_empty
+    end
+  end
+
   describe "#unfriend" do
     before(:each) do 
       @user1 = User.new(1)

@@ -66,6 +66,20 @@ module Friendis
         end
       end
 
+      def ignore_friend_request(friend)
+        if !(Friendis.redis.sismember(friendis_incoming_friend_requests_key, friend.id.to_s))
+          return false
+        else
+
+          # Ignoring a friend request, leaves the request in the requester queue, but removes
+          # it from the pending requests list of the recipient.
+          Friendis.redis.multi do
+            Friendis.redis.srem friendis_incoming_friend_requests_key, friend.id.to_s
+          end
+          return true
+        end
+      end
+
       def unfriend(friend)
         Friendis.redis.multi do
           Friendis.redis.srem friendis_my_friends_key, friend.id

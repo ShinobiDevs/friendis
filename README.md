@@ -82,6 +82,10 @@ The `id` attribute will automatically be cached.
 
     @user2.approve_friend_request(@user1)
 
+## Ignoring Friend Requests
+
+    @user2.ignore_friend_request(@user!) #=> @user1 will still see the sent friend request.
+
 ### Lisiting Friends
     
     @user1.friends
