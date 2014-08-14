@@ -53,31 +53,26 @@ module Friendis
       end
 
       def approve_friend_request(friend)
-        if !(Friendis.redis.sismember(friendis_incoming_friend_requests_key, friend.id.to_s))
-          return false
-        else
-          Friendis.redis.multi do
-            Friendis.redis.srem friend.friendis_outgoing_friend_requests_key, self.id.to_s
-            Friendis.redis.srem friendis_incoming_friend_requests_key, friend.id.to_s
-            Friendis.redis.sadd friendis_my_friends_key, friend.id.to_s
-            Friendis.redis.sadd friend.friendis_my_friends_key, self.id.to_s
-          end
-          return true
+        return false unless has_friend_request_from?(friend)
+        
+        Friendis.redis.multi do
+          Friendis.redis.srem friend.friendis_outgoing_friend_requests_key, self.id.to_s
+          Friendis.redis.srem friendis_incoming_friend_requests_key, friend.id.to_s
+          Friendis.redis.sadd friendis_my_friends_key, friend.id.to_s
+          Friendis.redis.sadd friend.friendis_my_friends_key, self.id.to_s
         end
+        true
       end
 
       def ignore_friend_request(friend)
-        if !(Friendis.redis.sismember(friendis_incoming_friend_requests_key, friend.id.to_s))
-          return false
-        else
+        return false unless has_friend_request_from?(friend)
 
-          # Ignoring a friend request, leaves the request in the requester queue, but removes
-          # it from the pending requests list of the recipient.
-          Friendis.redis.multi do
-            Friendis.redis.srem friendis_incoming_friend_requests_key, friend.id.to_s
-          end
-          return true
+        # Ignoring a friend request, leaves the request in the requester queue, but removes
+        # it from the pending requests list of the recipient.
+        Friendis.redis.multi do
+          Friendis.redis.srem friendis_incoming_friend_requests_key, friend.id.to_s
         end
+        true
       end
 
       def unfriend(friend)
@@ -89,6 +84,10 @@ module Friendis
 
       def friends
         Friendis.redis.smembers(friendis_my_friends_key).collect {|friend_id| get_friendis_meta(friend_id)}
+      end
+
+      def has_friend_request_from?(friend) 
+        Friendis.redis.sismember friendis_incoming_friend_requests_key, friend.id.to_s
       end
 
       def is_friends_with?(friend)

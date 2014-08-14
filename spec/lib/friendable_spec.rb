@@ -117,4 +117,28 @@ describe Friendis::Friendable do
 
   end
 
+  describe "#has_friend_request_from?" do
+    before(:each) do
+      @user1 = User.new(1)
+      @user2 = User.new(2)
+
+      @user1.clear_friendis_data
+      @user2.clear_friendis_data
+
+      @user1.save
+      @user2.save
+
+      @user1.send_friend_request(@user2)
+    end
+
+    it "should return true if a user has request from other" do
+      @user2.has_friend_request_from?(@user1).should be_truthy
+    end
+
+    it "should return false if a user has no request from other" do
+      @user1.has_friend_request_from?(@user2).should be_falsy
+    end
+
+  end
+
 end
