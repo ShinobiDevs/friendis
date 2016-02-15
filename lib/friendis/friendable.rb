@@ -15,7 +15,7 @@ module Friendis
     end
 
     module ClassMethods
-      
+
       # Mark the list of fields to track in redis for fast access.
       def friend_this(options = {})
         configuration = {
@@ -37,9 +37,9 @@ module Friendis
 
     end
 
-    module InstanceMethods 
+    module InstanceMethods
 
-      
+
 
       def get_friendis_meta(uuid = nil)
         Friendis.redis.hgetall friendis_meta_key(uuid)
@@ -54,7 +54,7 @@ module Friendis
 
       def approve_friend_request(friend)
         return false unless has_friend_request_from?(friend)
-        
+
         Friendis.redis.multi do
           Friendis.redis.srem friend.friendis_outgoing_friend_requests_key, self.id.to_s
           Friendis.redis.srem friendis_incoming_friend_requests_key, friend.id.to_s
